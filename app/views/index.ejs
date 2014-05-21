@@ -1,0 +1,34 @@
+<% layout('layout') -%>
+<div ng-controller="mainCtrl">
+  <div class="navbar navbar-default navbar-static-top">
+    <div ng-show="users.$local.id" class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="https://goinstant.com">GoInstant FitBit Example</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li><a access="authenticated" href="/dashboard">Dashboard</a></li>
+          <li><a access="authenticated" href="/leaderboard">Leaderboard</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li ng-show="conn.isGuest"><p class="navbar-text">Sign in with: </p></li>
+          <li><a access="guest" href="/auth/fitbit" target="_self">FitBit</a></li>
+          <li><a access="authenticated" href="#" ng-click="logout()">Sign out</a></li>
+          <li><strong class="navbar-text">{{users.$local.displayName}}</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div ng-show="ready" ng-view></div>
+    <ul ng-show="notifications" ng-repeat="item in notifications">
+      <li><span>UserId: {{item.ownerId}} just Sync'd their {{item.collectionType}} data!</span></li>
+    </ul>
+</div>
+
+<!-- Connect URL and JWT -->
+<script type="text/javascript">(function() { window.jwt = '<%= user %>'; window.connectUrl = '<%= connectUrl %>' })();</script>
+
+<!-- FitBit App -->
+<% script("js/fitbit.js") %>

@@ -1,0 +1,4 @@
+<h3>{{title}}</h3>
+
+<p ng-show="conn.isGuest">Please Log in</p>
+<p ng-hide="conn.isGuest">Welcome {{users.$local.displayName}}</p>

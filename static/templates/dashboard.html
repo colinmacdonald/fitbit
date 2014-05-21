@@ -1,0 +1,10 @@
+<h3>{{title}}</h3>
+
+<div>
+Dashboard stuff
+</div>
+
+<h4>Profile</h4>
+<ul>
+  <li ng-show="property.$value" ng-repeat="property in users.$local | keyFilter">{{property.$name}} - {{property.$value}}</li>
+</ul>

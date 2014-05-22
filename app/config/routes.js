@@ -7,14 +7,14 @@ exports.constructor = function routes() {};
 
 var site = require('../controllers/site');
 var auth = require('../middleware/auth');
-var fitbitAPI = require('../controllers/fitbit_api');
+var fitbit = require('../controllers/fitbit');
 
 routes.configure = function(app, passport) {
   //app.all('*', forceSSL.force);
 
   app.get('/', site.index);
 
-  app.post('/notifications/fitbit', fitbitAPI.notifications);
+  app.post('/notifications/fitbit', fitbit.notifications);
 
   app.get('/auth/fitbit', passport.authenticate('fitbit'));
 

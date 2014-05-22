@@ -11,6 +11,8 @@ var Signer = require('goinstant-auth').Signer;
 var goinstantClient = require('./goinstant_client');
 var fitbitClient = require('./fitbit_client');
 
+var TOKEN_KEY = 'tokens';
+
 function User(token, tokenSecret, profile) {
   this.profile = profile;
   this.token = token;
@@ -48,8 +50,12 @@ User.prototype.create = function() {
   };
 
   var promises = [];
-  promises.push(goinstantClient.setUserTokens(
-    this.profile.id, this.token, this.tokenSecret));
+
+  promises.push(goinstantClient.set(TOKEN_KEY + '/' + this.profile.id, {
+      token: this.token,
+      tokenSecret: this.tokenSecret
+    })
+  );
 
   promises.push(fitbitClient.subscribe(
     this.profile.id, 'all', this.token, this.tokenSecret));

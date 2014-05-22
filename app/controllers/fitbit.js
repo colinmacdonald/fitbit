@@ -11,6 +11,8 @@ var config = require('../config/env_vars');
 var goinstantClient = require('../lib/goinstant_client');
 var fitbitClient = require('../lib/fitbit_client');
 
+var ACTIVITY_KEY = 'activityData/';
+
 fitbit.notifications = function(req, res) {
   res.send(204);
 
@@ -32,10 +34,12 @@ fitbit.notifications = function(req, res) {
 
       var value = JSON.parse(data)[0];
       value.timestamp = time;
-      fitbitClient.getCategoryData(value.ownerId, value.categoryType, '2010-05-22').then(function(catData) {
-        console.log('fc-getcategory S');
-      }).catch(function(err) {
-        console.log('fc-getcategory ERR', err);
+
+      var date = '2014-05-22';
+
+      fitbitClient.getCategoryData(value.ownerId, value.collectionType, date).then(function(result) {
+        console.log('fc-getcategory \nResult: ', result.summary, '\nGoals: ', result.goals);
+        goinstantClient.set(ACTIVITY_KEY + date + '/' + value.ownerId, result);
       });
 
       goinstantClient.notifySync(value);

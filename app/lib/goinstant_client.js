@@ -12,7 +12,7 @@ var GoInstant = require('goinstant-rest').v1;
 var APP_NAME = 'fitbit';
 var ROOM_NAME = 'fitbit-lobby';
 var NOTIFY_CHANNEL_NAME = 'fitbit/sync-notifications';
-var TOKEN_KEY_NAME = 'fitbit/tokens';
+var TOKEN_KEY_NAME = 'tokens';
 
 var OPTS = {
   app_id: APP_NAME,
@@ -49,37 +49,34 @@ goinstantClient.notifySync = function(value) {
   return deferred.promise;
 };
 
-goinstantClient.setUserTokens = function(id, token, tokenSecret) {
+goinstantClient.set = function(key, value) {
   var deferred = Q.defer();
   var opts = _.clone(OPTS);
 
   _.extend(opts, {
-    key: TOKEN_KEY_NAME + '/' + id,
-    value: {
-      token: token,
-      tokenSecret: tokenSecret
-    }
+    key: key,
+    value: value
   });
 
-  client.keys.update(opts, function(err, value) {
+  client.keys.update(opts, function(err, result) {
     if (err) {
       deferred.reject(err);
 
       return console.log(err);
     }
 
-    deferred.resolve(value);
+    deferred.resolve(result);
   });
 
   return deferred.promise;
 };
 
-goinstantClient.getUserTokens = function(id) {
+goinstantClient.get = function(key) {
   var deferred = Q.defer();
   var opts = _.clone(OPTS);
 
   _.extend(opts, {
-    key: TOKEN_KEY_NAME + '/' + id
+    key: key
   });
 
   client.keys.get(opts, function(err, result) {

@@ -69,8 +69,10 @@ app.controller('mainCtrl',
   function($scope, $route, $location, $cookieStore, $timeout, permissions, $goConnection, $goUsers) {
     $scope.conn = $goConnection;
     $scope.users = $goUsers();
+    $scope.users.$sync();
     $scope.users.$self();
 
+    window.users = $scope.users;
     $scope.ready = false;
 
     $scope.logout = function() {
@@ -132,12 +134,17 @@ app.controller('indexCtrl', function($scope) {
   $scope.title = 'Index';
 });
 
-app.controller('dashboardCtrl', function($scope) {
+app.controller('dashboardCtrl', function($scope, $goKey) {
   $scope.title = 'Dashboard';
 });
 
-app.controller('leaderboardCtrl', function($scope) {
+app.controller('leaderboardCtrl', function($scope, $goKey) {
   $scope.title = 'Leaderboard';
+
+  var date = '2014-05-22';
+
+  $scope.dailyData = $goKey('activityData/' + date);
+  $scope.dailyData.$sync();
 });
 
 app.directive('access', function(permissions, $goConnection) {

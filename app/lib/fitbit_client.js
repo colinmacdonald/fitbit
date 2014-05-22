@@ -10,6 +10,8 @@ var Q = require('q');
 var Signer = require('goinstant-auth').Signer;
 var goinstantClient = require('./goinstant_client');
 
+var TOKEN_KEY = 'tokens';
+
 var oauth = this.oauth = new OAuth.OAuth(
   'https://api.fitbit.com/oauth/request_token',
   'https://api.fitbit.com/oauth/access_token',
@@ -48,9 +50,10 @@ fitbitClient.subscribe = function(id, category, token, tokenSecret) {
 fitbitClient.getCategoryData = function(id, category, date) {
   var deferred = Q.defer();
 
-  goinstantClient.getUserTokens(id).then(function(tokens) {
+  goinstantClient.get(TOKEN_KEY + '/' + id).then(function(tokens) {
+    console.log('tokens', tokens);
     oauth.get(
-      'https://api.fitbit.com/1/user/-/activities/date/' + date + '.json',
+      'https://api.fitbit.com/1/user/-/' + category + '/date/' + date + '.json',
       tokens.token,
       tokens.tokenSecret,
       function(err, data, res) {
@@ -60,7 +63,8 @@ fitbitClient.getCategoryData = function(id, category, date) {
         }
 
         var value = JSON.parse(data);
-        console.log('fetched data for: ', id, '/nvalue: ', value);
+        console.log('STEPS ', value.summary.steps);
+        console.log('GOAL ', value.goals.steps);
 
         deferred.resolve(value);
       }

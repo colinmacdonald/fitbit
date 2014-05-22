@@ -1,3 +1,18 @@
 <h3>{{title}}</h3>
 
-<p>Stuff here</p>
+<table class="table table-striped">
+  <tr>
+    <th>Name</th>
+    <th>Steps</th>
+    <th>Very Active Minutes</th>
+    <th>Distance</th>
+    <th>Calories Out</th>
+  </tr>
+  <tr ng-repeat="user in dailyData | keyFilter">
+    <th>{{users['fitbit:' + user.$name].displayName}}</th>
+    <td>{{user.summary.steps}} / {{user.goals.steps}}</td>
+    <td>{{user.summary.veryActiveMinutes}} / {{user.goals.activeMinutes}}</td>
+    <td>{{user.summary.distances[0].distance}} / {{user.goals.distance}}</td>
+    <td>{{user.summary.caloriesOut}} / {{user.goals.caloriesOut}}</td>
+  </tr>
+</table>

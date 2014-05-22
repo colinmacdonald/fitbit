@@ -47,8 +47,8 @@ user.subscribe = function(token, tokenSecret, id) {
   var oauth = new OAuth.OAuth(
     'https://api.fitbit.com/oauth/request_token',
     'https://api.fitbit.com/oauth/access_token',
-    config.consumerKey,
-    config.consumerSecret,
+    config.fitbit.consumerKey,
+    config.fitbit.consumerSecret,
     '1.0',
     null,
     'HMAC-SHA1'
@@ -62,8 +62,8 @@ user.subscribe = function(token, tokenSecret, id) {
       null,
       null,
       function (err, data, res){
-        if (err) {
-          throw err;
+        if (err && err.statusCode !== 200) {
+          return console.log('ERROR: statusCode ', err.statusCode);
         }
 
         console.log("Subscription creation attempt results:", data);

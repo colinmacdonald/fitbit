@@ -69,7 +69,6 @@ app.controller('mainCtrl',
   function($scope, $route, $location, $cookieStore, $timeout, permissions, $goConnection, $goUsers) {
     $scope.conn = $goConnection;
     $scope.users = $goUsers();
-    $scope.users.$sync();
     $scope.users.$self();
 
     window.users = $scope.users;
@@ -142,6 +141,9 @@ app.controller('leaderboardCtrl', function($scope, $goKey) {
   $scope.title = 'Leaderboard';
 
   var date = '2014-05-22';
+
+  $scope.userscache = $goKey('users');
+  $scope.userscache.$sync();
 
   $scope.dailyData = $goKey('activityData/' + date);
   $scope.dailyData.$sync();

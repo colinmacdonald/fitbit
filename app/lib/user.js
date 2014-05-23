@@ -5,6 +5,7 @@
 exports = module.exports = User;
 
 var config = require('../config/env_vars');
+var _ = require('lodash');
 var OAuth = require('oauth');
 var Q = require('q');
 var Signer = require('goinstant-auth').Signer;
@@ -12,6 +13,7 @@ var goinstantClient = require('./goinstant_client');
 var fitbitClient = require('./fitbit_client');
 
 var TOKEN_KEY = 'tokens';
+var USERS_KEY = 'users';
 
 function User(token, tokenSecret, profile) {
   this.profile = profile;
@@ -34,20 +36,25 @@ User.prototype.create = function() {
 
   var signer = new Signer(config.goinstantAppSecret);
 
-  var claims = {
-    domain: 'fitbit',
+  var metaData = {
     id: this.profile.id,
     displayName: this.profile._json.user.fullName,
     avatarUrl: this.profile._json.user.avatar150,
     gender: this.profile._json.user.gender,
-    weight: this.profile._json.user.weight,
+    weight: this.profile._json.user.weight
+  };
+
+  var claims = _.clone(metaData);
+
+  _.extend(claims, {
+    domain: 'fitbit',
     groups: [
       {
         id: 'fitbit-auth',
         displayName: 'FitBit'
       }
     ]
-  };
+  });
 
   var promises = [];
 
@@ -56,6 +63,9 @@ User.prototype.create = function() {
       tokenSecret: this.tokenSecret
     })
   );
+
+  promises.push(goinstantClient.set(USERS_KEY + '/' + this.profile.id,
+    metaData));
 
   promises.push(fitbitClient.subscribe(
     this.profile.id, 'all', this.token, this.tokenSecret));

@@ -8,7 +8,7 @@
 var CHANNEL_NAME = 'fitbit/sync-notifications';
 var TIMEOUT = 3000;
 
-var app = angular.module('fitbit', ['ngRoute', 'ngCookies', 'goangular']);
+var app = angular.module('fitbit', ['ngRoute', 'goangular']);
 
 app.config(function($routeProvider, $locationProvider, $goConnectionProvider) {
   $locationProvider.html5Mode(true).hashPrefix('!');
@@ -66,20 +66,12 @@ app.factory('permissions', function ($goConnection) {
 });
 
 app.controller('mainCtrl',
-  function($scope, $route, $location, $cookieStore, $timeout, permissions, $goConnection, $goUsers) {
+  function($scope, $route, $location, $timeout, permissions, $goConnection, $goUsers) {
     $scope.conn = $goConnection;
     $scope.users = $goUsers();
     $scope.users.$self();
 
-    window.users = $scope.users;
     $scope.ready = false;
-
-    $scope.logout = function() {
-      console.log($cookieStore.get('connect.sid'));
-      $cookieStore.remove('connect');
-
-      return false;
-    };
 
     $goConnection.$ready().then(function() {
       $scope.$on('$routeChangeStart', routeAuthorized);

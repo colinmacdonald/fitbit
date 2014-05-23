@@ -32,5 +32,7 @@ routes.configure = function(app, passport) {
     }
   );
 
+  app.get('/auth/logout', site.logout);
+
   app.get('*', site.index);
 };

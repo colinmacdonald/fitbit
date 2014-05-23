@@ -12,8 +12,6 @@ var fitbit = require('../controllers/fitbit');
 routes.configure = function(app, passport) {
   //app.all('*', forceSSL.force);
 
-  app.get('/', site.index);
-
   app.post('/notifications/fitbit', fitbit.notifications);
 
   app.get('/auth/fitbit', passport.authenticate('fitbit'));
@@ -33,4 +31,6 @@ routes.configure = function(app, passport) {
       res.redirect('/');
     }
   );
+
+  app.get('*', site.index);
 };

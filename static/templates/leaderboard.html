@@ -3,12 +3,12 @@
 <table class="table table-striped">
   <tr>
     <th>Name</th>
-    <th>Steps</th>
-    <th>Very Active Minutes</th>
-    <th>Distance</th>
-    <th>Calories Out</th>
+    <th><a href="#" ng-click="setOrder(steps)">Steps</a></th>
+    <th><a href="#" ng-click="setOrder(veryActiveMinutes)">Very Active Minutes</a></th>
+    <th><a href="#" ng-click="setOrder(distances[0].distance)">Distance</a></th>
+    <th><a href="#" ng-click="setOrder(caloriesOut)">Calories Out</a></th>
   </tr>
-  <tr ng-repeat="user in dailyData | keyFilter">
+  <tr ng-repeat="user in dailyData | keyFilter | orderBy:orderByTerm | limitTo: 10">
     <th>{{users['fitbit:' + user.$name].displayName}}</th>
     <td>{{user.summary.steps}} / {{user.goals.steps}}</td>
     <td>{{user.summary.veryActiveMinutes}} / {{user.goals.activeMinutes}}</td>

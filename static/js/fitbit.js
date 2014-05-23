@@ -145,6 +145,12 @@ app.controller('leaderboardCtrl', function($scope, $goKey) {
 
   $scope.dailyData = $goKey('activityData/' + date);
   $scope.dailyData.$sync();
+
+  $scope.orderByTerm = 'summary.steps';
+
+  $scope.setOrder = function(term) {
+    $scope.orderByTerm = '-summary.' + term;
+  };
 });
 
 app.directive('access', function(permissions, $goConnection) {

@@ -9,7 +9,7 @@ var ejsLocals = require('ejs-locals');
 var RedisStore = require('connect-redis')(express);
 var passport = require('passport');
 
-var config = require('./config/env_vars');
+var config = require('./config/env_config');
 var auth = require('./config/auth');
 var routes = require('./config/routes');
 

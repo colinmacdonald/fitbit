@@ -5,7 +5,7 @@
 var site = exports;
 exports.constructor = function() {};
 
-var config = require('../config/env_vars');
+var config = require('../config/env_config');
 
 site.index = function(req, res) {
   var jwt = req.user ? req.user.jwt : '';

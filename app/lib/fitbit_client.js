@@ -4,7 +4,7 @@
 
 var fitbitClient = exports;
 
-var config = require('../config/env_vars');
+var config = require('../config/env_config');
 var OAuth = require('oauth');
 var Q = require('q');
 var Signer = require('goinstant-auth').Signer;

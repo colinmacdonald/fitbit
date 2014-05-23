@@ -7,7 +7,7 @@ exports.constructor = function auth() {};
 
 var Q = require('q');
 
-var config = require('./env_vars');
+var config = require('./env_config');
 var passport = require('passport');
 var FitbitStrategy = require('passport-fitbit').Strategy;
 var ForceDotComStrategy = require('passport-forcedotcom').Strategy;

@@ -4,9 +4,8 @@
 
 exports = module.exports = User;
 
-var config = require('../config/env_vars');
+var config = require('../config/env_config');
 var _ = require('lodash');
-var OAuth = require('oauth');
 var Q = require('q');
 var Signer = require('goinstant-auth').Signer;
 var goinstantClient = require('./goinstant_client');
@@ -19,16 +18,6 @@ function User(token, tokenSecret, profile) {
   this.profile = profile;
   this.token = token;
   this.tokenSecret = tokenSecret;
-
-  this.oauth = new OAuth.OAuth(
-    'https://api.fitbit.com/oauth/request_token',
-    'https://api.fitbit.com/oauth/access_token',
-    config.fitbit.consumerKey,
-    config.fitbit.consumerSecret,
-    '1.0',
-    null,
-    'HMAC-SHA1'
-  );
 };
 
 User.prototype.create = function() {

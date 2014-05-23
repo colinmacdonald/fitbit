@@ -7,7 +7,6 @@ exports.constructor = function() {};
 
 var fs = require('fs');
 var multiparty = require('multiparty');
-var config = require('../config/env_vars');
 var goinstantClient = require('../lib/goinstant_client');
 var fitbitClient = require('../lib/fitbit_client');
 

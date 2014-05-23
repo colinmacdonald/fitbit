@@ -4,7 +4,7 @@
 
 var goinstantClient = exports;
 
-var config = require('../config/env_vars');
+var config = require('../config/env_config');
 var Q = require('q');
 var _ = require('lodash');
 var GoInstant = require('goinstant-rest').v1;

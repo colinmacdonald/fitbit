@@ -132,13 +132,18 @@ app.controller('dashboardCtrl', function($scope, $goKey) {
 app.controller('leaderboardCtrl', function($scope, $goKey) {
   $scope.title = 'Leaderboard';
 
-  var date = '2014-05-22';
+  $scope.date = '2014-05-23';
 
   $scope.userscache = $goKey('users');
   $scope.userscache.$sync();
 
-  $scope.dailyData = $goKey('activityData/' + date);
-  $scope.dailyData.$sync();
+  $scope.loadDate = function() {
+    console.log('load');
+    $scope.dailyData = $goKey('activityData/' + $scope.date);
+    $scope.dailyData.$sync();
+  };
+
+  $scope.loadDate();
 
   $scope.orderByTerm = 'summary.steps';
 

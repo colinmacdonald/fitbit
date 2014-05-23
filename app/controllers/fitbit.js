@@ -34,12 +34,16 @@ fitbit.notifications = function(req, res) {
       var value = JSON.parse(data)[0];
       value.timestamp = time;
 
-      var date = '2014-05-22';
-
-      fitbitClient.getCategoryData(value.ownerId, value.collectionType, date).then(function(result) {
-        console.log('fc-getcategory \nResult: ', result.summary, '\nGoals: ', result.goals);
-        goinstantClient.set(ACTIVITY_KEY + date + '/' + value.ownerId, result);
-      });
+      fitbitClient.getCategoryData(
+        value.ownerId,
+        value.collectionType,
+        value.date
+      ).then(function(result) {
+          goinstantClient.set(
+            ACTIVITY_KEY + value.date + '/' + value.ownerId,
+            result
+          );
+        });
 
       goinstantClient.notifySync(value);
     });
